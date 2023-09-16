@@ -15,10 +15,6 @@ spring:
     username: cos
     password: cos1234
 
-  mvc:
-    view:
-      prefix: /templates/
-      suffix: .mustache
 
   jpa:
     hibernate:
