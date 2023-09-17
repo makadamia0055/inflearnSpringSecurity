@@ -4,6 +4,8 @@ import com.cos.security1.model.User;
 import com.cos.security1.repository.UserRepository;
 import org.jboss.jandex.Index;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.access.annotation.Secured;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -25,15 +27,15 @@ public class IndexController {
         return "index"; // src/main/resources/templates/index.mustache
     }
     @GetMapping("/user")
-    public String user(){
+    public @ResponseBody String user(){
         return "user";
     }
     @GetMapping("/admin")
-    public String admin(){
+    public @ResponseBody  String admin(){
         return "admin";
     }
     @GetMapping("/manager")
-    public String manager(){
+    public @ResponseBody  String manager(){
         return "manager";
     }
     
@@ -59,6 +61,17 @@ public class IndexController {
         user.setPassword(encPassword);
         userRepository.save(user);//회원가입 잘 됨. 그러나 비밀번호 암호화가 없음. 그래서 시큐리티로 로그인을 할 수 없음.
         return "redirect:/loginForm";
+    }
+    @Secured("ROLE_ADMIN")
+    @GetMapping("/info")
+    public @ResponseBody String info(){
+        return "개인정보";
+    }
+    @PreAuthorize("hasRole('ROLE_MANAGER') or hasRole('ROLE_ADMIN')") // 이 데이터라는 메소드가 실행되기 직전에 실행되는 메소드, hasRole등은 프레임워크에서 만들어 둔 메소드
+    // @PostAuthorize => 이 메소드 종료 후 실행할 메소드 설정
+    @GetMapping("/data")
+    public @ResponseBody String data(){
+        return "데이터";
     }
 
 }

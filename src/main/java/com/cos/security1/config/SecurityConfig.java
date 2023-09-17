@@ -3,6 +3,7 @@ package com.cos.security1.config;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.security.config.Customizer;
+import org.springframework.security.config.annotation.method.configuration.EnableGlobalMethodSecurity;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
 import org.springframework.security.config.annotation.web.configuration.WebSecurityConfiguration;
@@ -13,6 +14,7 @@ import org.springframework.security.web.SecurityFilterChain;
 import static org.springframework.security.config.Customizer.withDefaults;
 
 @Configuration
+@EnableGlobalMethodSecurity(securedEnabled =true, prePostEnabled = true) // secureEnabled -> @Secured 어노테이션 활성화, prePostEnabled -> preAuthorize 어노테이션과 postAuthorize 어노테이션 활성화
 public class SecurityConfig {
 
     // 해당 메서드의 리턴되는 오브젝트를 빈으로 등록함.

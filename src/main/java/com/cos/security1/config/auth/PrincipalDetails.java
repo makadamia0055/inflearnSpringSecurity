@@ -6,20 +6,21 @@ package com.cos.security1.config.auth;
 // Authentication 안에 User 정보가 있어야 함.
 // User오브젝트 타입 => UserDetails 타입 객체
 
+
 import com.cos.security1.model.User;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
 
 import java.util.ArrayList;
 import java.util.Collection;
-import java.util.concurrent.ArrayBlockingQueue;
 
 // SecuritySession 영역에는 Authentication 객체만 저장 가능 => UserDetails(현재 PrincipalDetails)
 public class PrincipalDetails implements UserDetails {
 
     private User user; // 콤포지션
 
-    public PrincipalDetails(User user){
+    PrincipalDetails(User user){
         this.user = user;
     }
 
@@ -30,6 +31,7 @@ public class PrincipalDetails implements UserDetails {
         collect.add(new GrantedAuthority() {
             @Override
             public String getAuthority() {
+
                 return user.getRole();
             }
         });
@@ -43,7 +45,7 @@ public class PrincipalDetails implements UserDetails {
 
     @Override
     public String getUsername() {
-        return getUsername();
+        return user.getUsername();
     }
 
     @Override
@@ -63,6 +65,7 @@ public class PrincipalDetails implements UserDetails {
 
     @Override
     public boolean isEnabled() {
-        return false;
+        // 사이트에서 1년동안 로그인하지 않은 회원을 휴먼 회원으로 적용할 때 사용할 수 있는 옵션
+        return true;
     }
 }
