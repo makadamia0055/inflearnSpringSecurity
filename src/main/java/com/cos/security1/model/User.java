@@ -21,4 +21,7 @@ public class User {
     private String role; //ROLE_USER, ROLE_ADMIN
     @CreationTimestamp
     private Timestamp createDate;
+
+    private String provider; // 어디를 통해 로그인 했는지 : 구글, 카카오 등
+    private String providerId; // 해당 프로바이더에서 제공하는 ID 값
 }

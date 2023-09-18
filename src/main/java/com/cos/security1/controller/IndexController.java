@@ -4,8 +4,12 @@ import com.cos.security1.model.User;
 import com.cos.security1.repository.UserRepository;
 import org.jboss.jandex.Index;
 import org.springframework.beans.factory.annotation.Autowired;
+<<<<<<< Updated upstream
 import org.springframework.security.access.annotation.Secured;
 import org.springframework.security.access.prepost.PreAuthorize;
+=======
+import org.springframework.security.core.Authentication;
+>>>>>>> Stashed changes
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -19,6 +23,13 @@ public class IndexController {
 
     @Autowired
     private BCryptPasswordEncoder bCryptPasswordEncoder;
+
+    @GetMapping("/test/login")
+    public @ResponseBody String textLogin(Authentication authentication){
+        System.out.println("/test/login ===============");
+        System.out.println("authentication : " + authentication.getPrincipal());
+        return "세션정보 확인하기";
+    }
 
     @GetMapping({"", "/"}) // 주소를 여러개 매핑
     public String index(){
@@ -73,5 +84,7 @@ public class IndexController {
     public @ResponseBody String data(){
         return "데이터";
     }
+
+
 
 }
