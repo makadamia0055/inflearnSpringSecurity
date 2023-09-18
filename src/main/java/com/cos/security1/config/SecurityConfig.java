@@ -19,13 +19,15 @@ import static org.springframework.security.config.Customizer.withDefaults;
 @EnableGlobalMethodSecurity(securedEnabled =true, prePostEnabled = true) // secureEnabled -> @Secured 어노테이션 활성화, prePostEnabled -> preAuthorize 어노테이션과 postAuthorize 어노테이션 활성화
 public class SecurityConfig {
 
-    @Autowired
     private PrincipalOauth2UserService principalOauth2UserService;
     // 해당 메서드의 리턴되는 오브젝트를 빈으로 등록함.
-    @Bean
-    public BCryptPasswordEncoder encodePwd(){
-        return new BCryptPasswordEncoder();
+
+    @Autowired
+    SecurityConfig(PrincipalOauth2UserService principalOauth2UserService){
+        this.principalOauth2UserService = principalOauth2UserService;
     }
+
+
 
     @Bean
     public SecurityFilterChain filterChain(HttpSecurity http) throws Exception{

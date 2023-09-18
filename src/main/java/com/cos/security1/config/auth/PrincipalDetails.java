@@ -8,20 +8,37 @@ package com.cos.security1.config.auth;
 
 
 import com.cos.security1.model.User;
+import lombok.Data;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
+import org.springframework.security.oauth2.core.user.OAuth2User;
 
 import java.util.ArrayList;
 import java.util.Collection;
+import java.util.Map;
 
 // SecuritySession 영역에는 Authentication 객체만 저장 가능 => UserDetails(현재 PrincipalDetails)
-public class PrincipalDetails implements UserDetails {
+@Data
+public class PrincipalDetails implements UserDetails, OAuth2User {
 
     private User user; // 콤포지션
+    private Map<String, Object> attributes;
 
+    // 일반 로그인시 생성자
     PrincipalDetails(User user){
         this.user = user;
+    }
+
+    // OAuth 로그인시 생성자
+    public PrincipalDetails(User user, Map<String, Object> attributes){
+        this.user = user;
+        this.attributes = attributes;
+    }
+
+    @Override
+    public Map<String, Object> getAttributes() {
+        return attributes;
     }
 
     // 해당 유저의 권한을 리턴하는 곳.
@@ -67,5 +84,11 @@ public class PrincipalDetails implements UserDetails {
     public boolean isEnabled() {
         // 사이트에서 1년동안 로그인하지 않은 회원을 휴먼 회원으로 적용할 때 사용할 수 있는 옵션
         return true;
+    }
+
+    @Override
+    public String getName() {
+        //return attributes.get("sub");
+        return null;
     }
 }

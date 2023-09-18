@@ -18,6 +18,7 @@ public class PrincipalDetailsService implements UserDetailsService {
 
     // 시큐리티 Session = Authentication =UserDetails
     // Authentication 내부의 UserDetails에 UserDetails가 들어가고, 시큐리티 Session내부의 Authentication에 다시 Authentication이 들어감.
+    //메소드 종료시 @AuthenticationPrincipal 어노테이션이 만들어진다.
     @Override
     public UserDetails loadUserByUsername(String username) throws UsernameNotFoundException {
         // html 파일의 입력 폼의 name을 이 String 매개변수 username에 따라 작성해야한다.
